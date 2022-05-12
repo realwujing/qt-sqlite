@@ -9,13 +9,12 @@
 int test()
 {
     QString sql = "select 1";
-    QSqlDatabase connection = CONNECTION->getConnection();
-    QSqlQuery query(sql, connection);
+    Connection connection;
+    QSqlQuery query = connection.execute(sql);
     while (query.next()) {
         QString sqlResult = query.value(0).toString();
         qDebug() << "select 1:" << sqlResult;
     }
-    CONNECTION->closeConnection(connection);
     return 0;
 }
 
