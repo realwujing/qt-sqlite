@@ -11,6 +11,6 @@ set(CMAKE_BUILD_TYPE "Debug")
 
 find_package(Qt5 REQUIRED COMPONENTS Core Sql)
 
-add_executable(connection main.cpp connection_pool.cpp)
+add_executable(connection main.cpp connection.cpp)
 
 target_link_libraries(connection Qt5::Core Qt5::Sql) 

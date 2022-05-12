@@ -4,13 +4,18 @@
 #include <QSqlQuery>
 #include <QtConcurrent/QtConcurrent>
 
-#include "connection_pool.h"
+#include "connection.h"
 
 int test()
 {
     QString sql = "select 1";
-
-    QSqlQuery sqlQuery(sql, *(CONNECTION_POOL->getConnection().data()));
+    QSqlDatabase connection = CONNECTION->getConnection();
+    QSqlQuery query(sql, connection);
+    while (query.next()) {
+        QString sqlResult = query.value(0).toString();
+        qDebug() << "select 1:" << sqlResult;
+    }
+    CONNECTION->closeConnection(connection);
     return 0;
 }
 
@@ -18,7 +23,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    for (size_t i = 0; i < 10; i++)
+    for (size_t i = 0; i < 1000; i++)
     {
         QtConcurrent::run([=]()
                       { int ret = test();
